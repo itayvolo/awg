@@ -9,6 +9,14 @@ pipeline {
                 sh "docker build . -t itayvolo/awgapp:${DOCKER_TAG}"
             }
         }
+        stage('Dockerhub push'){
+            steps{
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubPWD')]) {
+                    sh "docker login -u itayvolo -p ${dockerhubPWD}"
+                    sh "docker push itayvolo/awgapp:${DOCKER_TAG}"
+                }
+            }
+        }
     }
 }
 

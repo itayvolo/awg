@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awg-depl
+  #namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: awg
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: awg
+    spec:
+      containers:
+      - name: awg
+        image: itayvolo/awgapp:tagVersion
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: awg-service
+ # namespace: production
+  labels:
+    app: awg
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: awg

@@ -17,6 +17,15 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to K8s'){
+            steps{
+                sh "chmod +x changeTag.sh"
+                sh "./changeTag.sh ${DOCKER_TAG}"
+                sshagent(['k8s']) {
+                    sh "scp -o StrictHostKeyChecking=no awgapp-depl.yaml root@volomaster1:/root/k8s/application/"
+                }
+            }
+        }
     }
 }
 

@@ -22,8 +22,8 @@ pipeline {
                 sh "chmod +x changeTag.sh"
                 sh "./changeTag.sh ${DOCKER_TAG}"
                 sshagent(['k8s']) {
-                    sh "scp -o StrictHostKeyChecking=no awgapp-depl.yaml root@volomaster1:/root/k8s/application/"
-                    sh "ssh root@volomaster1 kubectl apply -f /root/k8s/application/"
+                    sh "scp -o StrictHostKeyChecking=no awgapp-depl.yaml testim@volomaster1:/home/testim/k8s/application/"
+                    sh "ssh testim@volomaster1 kubectl apply -f ./k8s/application/"
                 }
             }
         }
